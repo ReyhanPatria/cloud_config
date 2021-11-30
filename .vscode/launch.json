@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CloudConfigServerApplication<cloud_config_server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.example.cloud_config_server.CloudConfigServerApplication",
+            "projectName": "cloud_config_server",
+            "args": ""
+        }
+    ]
+}

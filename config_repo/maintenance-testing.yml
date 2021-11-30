@@ -1,0 +1,6 @@
+maintenance:
+  code: "MAINTENANCE-009"
+  message: "Maintenance is in progress"
+  urls: [
+    "/not-in-maintenance"
+ ]
