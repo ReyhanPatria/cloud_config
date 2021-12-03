@@ -1,6 +1,17 @@
 maintenance:
-  code: "MAINTENANCE-009"
-  message: "Maintenance is in progress"
-  urls: [
-    "/not-in-maintenance"
- ]
+  endpoints:
+    - code: "MAINTENANCE-009"
+      message: "Maintenance is in progress"
+      start: 2021-12-03 23:00:00
+      end: 2021-12-03 23:10:00
+      urls: [
+        "/not-in-maintenance",
+        "/not-in-maintenance/in-maintenance/deep"
+      ]
+    - code: "MTN-001"
+      message: "Endpoints is BROKEN"
+      start: 2021-12-03 23:00:00
+      end: 2021-12-03 23:05:00
+      urls: [
+        "/not-in-maintenance/in-maintenance"
+      ]
