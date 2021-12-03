@@ -1,20 +1,17 @@
 package com.example.filtertesting.config;
 
-import java.util.List;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "maintenance")
 @Setter @Getter
 @RefreshScope
 public class MaintenanceConfig {
-    private String code;
-    private String message;
-    private List<String> urls;
+    private List<MaintenanceEndpoint> endpoints;   
 }

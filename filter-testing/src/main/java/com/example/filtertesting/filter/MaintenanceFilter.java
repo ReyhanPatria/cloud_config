@@ -1,19 +1,19 @@
 package com.example.filtertesting.filter;
 
-import java.io.IOException;
+import com.example.filtertesting.config.MaintenanceConfig;
+import com.example.filtertesting.config.MaintenanceEndpoint;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.filtertesting.config.MaintenanceConfig;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -26,10 +26,12 @@ public class MaintenanceFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String path = request.getRequestURI();
 
-        if(maintenanceConfig.getUrls().contains(path)) {
-            response.sendRedirect("/maintenance");
+        for(MaintenanceEndpoint me: maintenanceConfig.getEndpoints()) {
+            if(me.getUrls().contains(path)) {
+                request.setAttribute("maintenance-code", me.getCode());
+                request.setAttribute("maintenance-message", me.getMessage());
+                request.getRequestDispatcher("/maintenance").forward(request, response);
+            }
         }
-        
-        filterChain.doFilter(request, response);
     }
 }

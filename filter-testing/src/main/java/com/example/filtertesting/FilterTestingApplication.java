@@ -1,16 +1,18 @@
 package com.example.filtertesting;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.example.filtertesting.config.MaintenanceConfig;
-
+import com.example.filtertesting.config.MaintenanceEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @SpringBootApplication
@@ -23,8 +25,8 @@ public class FilterTestingApplication {
 	}
 
 	@GetMapping({"/", "url-in-config"})
-	public Collection<String> getHome() {
-		return maintenanceConfig.getUrls();
+	public List<MaintenanceEndpoint> getHome() {
+		return maintenanceConfig.getEndpoints();
 	}
 
 	@GetMapping("/not-in-maintenance")
@@ -38,10 +40,10 @@ public class FilterTestingApplication {
 	}
 	
 	@GetMapping("/maintenance")
-	public Map<String, String> getMaintenance() {
-		HashMap<String, String> maintenanceSchema = new HashMap<>();
-		maintenanceSchema.put("code", maintenanceConfig.getCode());
-		maintenanceSchema.put("message", maintenanceConfig.getMessage());
+	public Map<String, Object> getMaintenance(HttpServletRequest request) {
+		HashMap<String, Object> maintenanceSchema = new HashMap<>();
+		maintenanceSchema.put("code", request.getAttribute("maintenance-code"));
+		maintenanceSchema.put("message", request.getAttribute("maintenance-message"));
 		return maintenanceSchema;
 	}
 }
