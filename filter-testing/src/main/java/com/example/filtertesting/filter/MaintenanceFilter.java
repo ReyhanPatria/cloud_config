@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -27,11 +28,18 @@ public class MaintenanceFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
 
         for(MaintenanceEndpoint me: maintenanceConfig.getEndpoints()) {
+            
             if(me.getUrls().contains(path)) {
-                request.setAttribute("maintenance-code", me.getCode());
-                request.setAttribute("maintenance-message", me.getMessage());
-                request.getRequestDispatcher("/maintenance").forward(request, response);
+                LocalDateTime current = LocalDateTime.now();
+                if(current.isAfter(me.getStart()) && current.isBefore(me.getEnd())) {
+                    request.setAttribute("maintenance-code", me.getCode());
+                    request.setAttribute("maintenance-message", me.getMessage());
+                    request.getRequestDispatcher("/maintenance").forward(request, response);
+                    return;
+                }
             }
         }
+
+        filterChain.doFilter(request, response);
     }
 }
