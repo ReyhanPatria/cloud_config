@@ -10,7 +10,7 @@ maintenance:
       ]
     - code: "MTN-001"
       message: "Endpoints is BROKEN"
-      start: 2021-12-08 10:55:00
+      start: 2021-12-08 10:45:00
       end: 2021-12-08 11:00:00
       urls: [
         "/not-in-maintenance/in-maintenance"
